@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from .models import Curso
+from .models import Curso, Familiares
 from django.template import Template, Context, loader
 import datetime
 
@@ -13,9 +13,17 @@ def curso(self):
    documentoDeTexto = f"----> Curso: {curso.nombre}     Camada: {curso.camada}"
    return HttpResponse(documentoDeTexto)
 
-def hola(self):
-   juancito = 'juan'
-   return HttpResponse(juancito)
+def datos(self):
+   familiares = Familiares( nombre = "Nicolas" , numero = 7 , fechaDeNac = "2001-1-27")
+   familiares.save()
+   # documentoDeTexto = f"Nombre: {familiares.nombre} \n Numero: {familiares.numero} \n Cumpleanios:{familiares.fechaDeNac}"
+   diccionario = {"nombre":familiares.nombre, "numero":familiares.numero, "fecha":familiares.fechaDeNac}
+
+   plantilla = loader.get_template('template_familiares.html')
+
+   documento = plantilla.render(diccionario)
+
+   return HttpResponse(documento)
 
 def saludo(request):
 	return HttpResponse("Hola Django - Coder")
@@ -34,6 +42,27 @@ def probandoTemplate(self):
 
     return HttpResponse(documento)
 
+def inicio(request):
+
+      return render(request, "AppCoder/inicio.html")
+
+def cursos(request):
+
+      return render(request, "AppCoder/cursos.html")
+
+def profesores(request):
+
+      return render(request, "AppCoder/profesores.html")
+
+
+def estudiantes(request):
+
+      return render(request, "AppCoder/estudiantes.html")
+
+
+def entregables(request):
+
+      return render(request, "AppCoder/entregables.html")
 
     
 

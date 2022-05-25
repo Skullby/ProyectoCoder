@@ -1,3 +1,4 @@
+from operator import mod
 from django.db import models
 
 # Create your models here.
@@ -21,3 +22,8 @@ class Entregable(models.Model):
     nombre= models.CharField(max_length=30)
     fechaDeEntrega = models.DateField()  
     entregado = models.BooleanField()
+
+class Familiares(models.Model):
+    nombre = models.CharField(max_length = 40)
+    numero = models.IntegerField()
+    fechaDeNac = models.DateField()
