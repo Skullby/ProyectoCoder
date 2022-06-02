@@ -1,8 +1,10 @@
+
 from django.shortcuts import render
-from django.http import HttpResponse
-from .models import Curso, Familiares
+from .models import *
 from django.template import Template, Context, loader
 import datetime
+from AppCoder.forms import *
+from django.views.decorators.csrf import csrf_protect
 
 # Create your views here.
 
@@ -42,6 +44,11 @@ def probandoTemplate(self):
 
     return HttpResponse(documento)
 
+def mi_plantilla(self):
+      plantilla = loader.get_template('padre.html')
+      documento = plantilla.render()
+      return HttpResponse(documento)
+
 def inicio(request):
 
       return render(request, "AppCoder/inicio.html")
@@ -63,6 +70,41 @@ def estudiantes(request):
 def entregables(request):
 
       return render(request, "AppCoder/entregables.html")
+
+def cursoFrom(request):
+
+      if request.method == 'POST':
+            miForm = cursoForm(request.POST)
+
+            
+            print(miForm)
+
+            if miForm.is_valid():
+                  info = miForm.cleaned_data
+
+                  curso = Curso(nombre = info['nombre'] , camada = info['camada'])
+
+                  curso.save()
+
+                  return render(request , 'AppCoder/inicio.html')
+
+      else:
+            miForm = cursoForm()
+
+      return render(request , 'AppCoder/cursoForm.html' , {"miForm":miForm})
+
+def cursoFormulario(request):
+      if request.method == "POST":
+
+            curso = Curso(request.POST['nombre'] , request.POST['camada'])
+
+            curso.save()
+
+            return render(request,"AppCoder/inicio.html")
+
+      return render(request, "AppCoder/cursoForm1.html")
+      
+
 
     
 
